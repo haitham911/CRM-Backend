@@ -16,35 +16,38 @@ use Validator;
 class AuthController extends Controller
 {
     private $user;
-    public function __construct(User $user){
+    public function __construct(User $user)
+    {
         $this->user = $user;
     }
 
-    private function getUserData(){
+    private function getUserData()
+    {
         $userId = Auth::user()->id;
         $user = User::where('id', '=', $userId)->with('userPermissions.permission')->first();
         return response()->json($user);
     }
 
-    public function register(Request $request){
+    public function register(Request $request)
+    {
         $user = $this->user->create([
-          'name' => $request->get('name'),
-          'email' => $request->get('email'),
-          'password' => bcrypt($request->get('password'))
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('password'))
         ]);
-        return response()->json(['status'=>true,'message'=>'User created successfully','data'=>$user]);
+        return response()->json(['' => true, 'message' => 'User created successfully', 'data' => $user]);
     }
 
     public function login(Request $request)
     {
         try {
             $credentials = $request->only('email', 'password');
-            if(!$token = JWTAuth::attempt($credentials)) {
+            if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json([
                     'error' => 'Invalid credentials'
                 ], 401);
             }
-        } catch(JWTException $e) {
+        } catch (JWTException $e) {
             return response()->json([
                 'error' => 'Something went wrong'
             ], 500);
@@ -54,19 +57,18 @@ class AuthController extends Controller
 
         $user = User::find($userId, ['name', 'email', 'active']);
         $permissions = Permission
-            ::whereHas("permissionUsers", function($q) use ($userId){
+            ::whereHas("permissionUsers", function ($q) use ($userId) {
                 $q->where("user_id", "=", $userId);
             })
             ->pluck('code');
-        
-        if($user->active){
+
+        if ($user->active) {
             return response()->json([
                 'token' => $token,
                 'user' => $user,
                 'permissions' => $permissions
             ], 200);
-        }
-        else {
+        } else {
             return response()->json([
                 'error' => 'User inactive'
             ], 401);
@@ -81,11 +83,13 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function getUser(Request $request){
+    public function getUser(Request $request)
+    {
         return $this->getUserData();
     }
 
-    public function getUserPermissions(Request $request){
+    public function getUserPermissions(Request $request)
+    {
         $userId = $request->user()->id;
         $permissions = UserPermission
             ::where('user_id', '=', $userId)
@@ -94,19 +98,21 @@ class AuthController extends Controller
         return $permissions;
     }
 
-    public function editUser(Request $request){
+    public function editUser(Request $request)
+    {
 
         $user = Auth::user();
         $user->update($request->only('name', 'email'));
-        
+
         return $this->getUserData();
     }
 
-    public function editUserPassword(Request $request){
+    public function editUserPassword(Request $request)
+    {
         $user = Auth::user();
 
         $validator = Validator::make($request->all(), [
-            'old' => 'required|string|hash:'.$user->password,
+            'old' => 'required|string|hash:' . $user->password,
             'new' => 'required|string|min:8|different:old',
             'repeat' => 'required|string|min:8|same:new',
         ]);

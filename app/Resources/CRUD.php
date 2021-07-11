@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Resources;
 
 class CRUD
@@ -9,13 +10,17 @@ class CRUD
             'permission' => 'CRM',
             'namespace' => 'Crm',
             'resources' => [
-                ['path' => 'companies', 'controller' => 'CompaniesController', 'model' => 'App\Models\Crm\Company'],
-                ['path' => 'people', 'controller' => 'PeopleController', 'model' => 'App\Models\Crm\Person', 'custom' => [
-                    ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
-                    ['path' => '/search', 'method' => 'post', 'function' => 'search']]
+                ['path' => 'leads', 'controller' => 'LeadsController', 'model' => 'App\Models\Crm\Leads'],
+                [
+                    'path' => 'people', 'controller' => 'PeopleController', 'model' => 'App\Models\Crm\Person', 'custom' => [
+                        ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
+                        ['path' => '/search', 'method' => 'post', 'function' => 'search']
+                    ]
                 ],
-                ['path' => 'positions', 'controller' => 'PositionsController', 'model' => 'App\Models\Crm\Position', 'custom' => [
-                    ['path' => '/{id}/tasks', 'method' => 'get', 'function' => 'positionTasks']]
+                [
+                    'path' => 'positions', 'controller' => 'PositionsController', 'model' => 'App\Models\Crm\Position', 'custom' => [
+                        ['path' => '/{id}/tasks', 'method' => 'get', 'function' => 'positionTasks']
+                    ]
                 ],
                 ['path' => 'company-comments', 'controller' => 'CompanyCommentsController', 'model' => 'App\Models\Crm\CompanyComment'],
                 ['path' => 'person-comments', 'controller' => 'PersonCommentsController', 'model' => 'App\Models\Crm\PersonComment'],
@@ -35,17 +40,23 @@ class CRUD
             'permission' => 'ADMIN',
             'namespace' => 'Admin',
             'resources' => [
-                ['path' => 'users', 'controller' => 'UsersController', 'model' => 'App\Models\Admin\User', 'custom' => [
-                    ['path' => '/{id}/reset-password', 'method' => 'put', 'function' => 'resetPassword'],
-                    ['path' => '/{id}/permissions', 'method' => 'get', 'function' => 'userPermissions']]
+                [
+                    'path' => 'users', 'controller' => 'UsersController', 'model' => 'App\Models\Admin\User', 'custom' => [
+                        ['path' => '/{id}/reset-password', 'method' => 'put', 'function' => 'resetPassword'],
+                        ['path' => '/{id}/permissions', 'method' => 'get', 'function' => 'userPermissions']
+                    ]
                 ],
-                ['path' => 'permissions', 'controller' => 'PermissionsController', 'model' => 'App\Models\Admin\Permission', 'custom' => [
-                    ['path' => '/{id}/users', 'method' => 'get', 'function' => 'permissionUsers']]
+                [
+                    'path' => 'permissions', 'controller' => 'PermissionsController', 'model' => 'App\Models\Admin\Permission', 'custom' => [
+                        ['path' => '/{id}/users', 'method' => 'get', 'function' => 'permissionUsers']
+                    ]
                 ],
                 ['path' => 'user-permissions', 'controller' => 'UserPermissionsController', 'model' => 'App\Models\Admin\UserPermission', 'delete' => true, 'multipleAdd' => true],
-                ['path' => 'user-types', 'controller' => 'UserTypesController', 'model' => 'App\Models\Admin\UserType', 'custom' => [
-                    ['path' => '/{id}/reset-password', 'method' => 'put', 'function' => 'resetPassword'],
-                    ['path' => '/{id}/permissions', 'method' => 'get', 'function' => 'userPermissions']]
+                [
+                    'path' => 'user-types', 'controller' => 'UserTypesController', 'model' => 'App\Models\Admin\UserType', 'custom' => [
+                        ['path' => '/{id}/reset-password', 'method' => 'put', 'function' => 'resetPassword'],
+                        ['path' => '/{id}/permissions', 'method' => 'get', 'function' => 'userPermissions']
+                    ]
                 ],
             ],
         ],

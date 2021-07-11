@@ -11,6 +11,46 @@ trait REST
     // store item
     public function rStore($model, $request, $primaryKey, $computed = [])
     {
+        if ($model == 'App\Models\Crm\Leads') {
+            if ($request->has('sync')) {
+                $sync = $request->get('sync');
+                if ($sync === '0') {
+
+                    $dbsales = DB::connection('sales');
+
+                    $maxid = $dbsales->table('leads')->max('id');
+                    $dbcomper = DB::connection('comper');
+                    if (is_numeric($maxid)) {
+
+                        $newLeads = $dbcomper->table('leads')->where('id', '>', $maxid)->get();
+                    } else {
+                        $newLeads = $dbcomper->table('leads')->where('id', '>', '0')->get();
+                    }
+
+                    if (count($newLeads) === 0) {
+                        return ['status' => -1, 'msg' => "it is UpToDate", 'max' => $maxid];
+                    }
+
+                    $myleads = json_decode(json_encode($newLeads), true);
+
+                    $model::insert($myleads);
+                    return ['status' => 0, 'msg' => "saved"];
+                } else {
+                    $dbcomper = DB::connection('comper');
+                    $Lead = $dbcomper->table('leads')->where('id', $sync)->first();
+                    if (!$Lead) {
+                        return ['status' => -1, 'msg' => "lead not found"];
+                    }
+                    $mylead = json_decode(json_encode($Lead), true);
+                    $dbsales = DB::connection('sales');
+                    $model::insert($mylead);
+                    //  $dbsales->table('leads')->insert($Lead);
+                    return ['status' => 0, 'msg' => "saved", 'id' => $sync];
+                }
+            } else {
+                return ['status' => -1, 'msg' => "not vaild request"];
+            }
+        }
         $fields = $model::$validator;
         $validator = Validator::make($request->all(), $fields);
         if ($validator->fails()) {
@@ -18,7 +58,7 @@ trait REST
         }
         $insert = [];
         foreach ($fields as $key => $value) {
-            if($request->has($key)){
+            if ($request->has($key)) {
                 $insert[$key] = $request->get($key);
             }
         }
@@ -62,18 +102,17 @@ trait REST
         }
 
         $newValues = $request->get('request');
-        if($customFillable){
+        if ($customFillable) {
             $update = [];
-            foreach($newValues as $key => $value){
-                if(in_array($key, $fillable)){
+            foreach ($newValues as $key => $value) {
+                if (in_array($key, $fillable)) {
                     $update[$key] = $value;
                 }
             }
-        }
-        else{
+        } else {
             $update = $newValues;
         }
-        
+
         $model
             ::whereIn($primaryKey, $ids)
             ->update($update);
