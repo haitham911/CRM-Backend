@@ -96,18 +96,25 @@ class CRUDcontroller extends Controller
             $model = $this->model;
             $obj = $model::where($this->pk, $id)->first();
             if (!$obj) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'leads_proudct not found'
-                ], 400);
+                return ['status' => -1, 'msg' => "leads_proudct not found"];
             }
-
 
             if ($this->model == 'App\Models\Crm\Leads') {
                 //$modelpro = 'App\Models\Crm\Leads_Proudct';
-                $result = AddLead::publish($id);
-                if ($result !== true)
-                    return $result;
+
+                $active = $request->get('active');
+                if ($active == "1") {
+                    $result = AddLead::publish($id);
+                    if ($result !== true) {
+                        return $result;
+                    }
+                }
+                if ($active == "0") {
+                    $result = AddLead::unpublish($id);
+                    if ($result !== true) {
+                        return $result;
+                    }
+                }
             }
 
             return $this->rUpdate($this->model, $obj, $request->all(), $this->pk);

@@ -8,6 +8,17 @@ use App\Models\Crm\Leads_Proudct;
 
 trait AddLead
 {
+    public static function unpublish($id)
+    {
+        if (Leads_Proudct::where('lead_id_source', $id)->delete()) {
+            return true;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'package can not be deleted'
+            ], 500);
+        }
+    }
     public static function publish($id)
     {
 
