@@ -10,7 +10,12 @@ class CRUD
             'permission' => 'CRM',
             'namespace' => 'Crm',
             'resources' => [
-                ['path' => 'leads', 'controller' => 'LeadsController', 'model' => 'App\Models\Crm\Leads'],
+                [
+                    'path' => 'leads', 'controller' => 'LeadsController', 'model' => 'App\Models\Crm\Leads', 'custom' => [
+                        ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
+                        ['path' => '/search', 'method' => 'post', 'function' => 'search']
+                    ]
+                ],
                 [
                     'path' => 'people', 'controller' => 'PeopleController', 'model' => 'App\Models\Crm\Person', 'custom' => [
                         ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
