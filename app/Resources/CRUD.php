@@ -27,7 +27,7 @@ class CRUD
                         ['path' => '/{id}/tasks', 'method' => 'get', 'function' => 'positionTasks']
                     ]
                 ],
-                ['path' => 'company-comments', 'controller' => 'CompanyCommentsController', 'model' => 'App\Models\Crm\CompanyComment'],
+                ['path' => 'package', 'controller' => 'CompanyCommentsController', 'model' => 'App\Models\Crm\CompanyComment'],
                 ['path' => 'person-comments', 'controller' => 'PersonCommentsController', 'model' => 'App\Models\Crm\PersonComment'],
                 ['path' => 'position-tasks', 'controller' => 'PositionTasksController', 'model' => 'App\Models\Crm\PositionTask', 'delete' => true, 'multipleAdd' => true],
                 ['path' => 'company-types', 'controller' => 'CompanyTypesController', 'model' => 'App\Models\Crm\CompanyType'],

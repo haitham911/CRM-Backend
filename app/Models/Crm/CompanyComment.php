@@ -16,7 +16,7 @@ class CompanyComment extends Model
         'company_comment_type_id',
         'active'
     ];
-    
+
     public static $validator = [
         'company_id' => 'required|exists:companies,id',
         'company_comment_type_id' => 'required|exists:company_comment_types,id',
@@ -38,4 +38,7 @@ class CompanyComment extends Model
     {
         return $this->belongsTo(CompanyCommentType::class);
     }
+    protected $connection = 'sales';
+
+    protected $table = 'leads';
 }

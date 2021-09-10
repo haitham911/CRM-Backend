@@ -35,7 +35,7 @@ class LeadsController extends Controller
     }
     public function search(Request $request)
     {
-        $columns = ['id', 'name', 'mobile', 'email', 'age', 'income_source', 'work_duration', 'loan_amount', 'loan_duration'];
+        $columns = ['id', 'name', 'email', 'chosen_product_id', 'income_source', 'work_duration', 'loan_amount', 'loan_duration'];
         $model = Leads::orderBy('id', 'asc');
 
 
