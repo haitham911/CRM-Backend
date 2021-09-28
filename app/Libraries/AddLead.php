@@ -44,19 +44,21 @@ trait AddLead
         $LeadLoanAmount = $Lead->loan_amount;
         if ($LeadLoanAmount < 1) {
             //   return ['status' => -2, 'msg' => 'lead amount not vaild'];
-            return response()->json([
+           /* return response()->json([
                 'status' => -1,
                 'amount' => $LeadLoanAmount,
                 'msg' => 'lead amount not vaild'
-            ], 500);
+            ], 500);*/
+            $LeadLoanAmount  = 0;
         }
         $LeadMonthlyIncome = $Lead->monthly_income;
         if ($LeadMonthlyIncome < 0) {
-            return response()->json([
+            /*return response()->json([
                 'status' => -1,
                 'amount' => $LeadMonthlyIncome,
                 'msg' => 'lead Monthly Income not vaild'
-            ], 400);
+            ], 400);*/
+            $LeadLoanAmount  = 0;
         }
 
 
