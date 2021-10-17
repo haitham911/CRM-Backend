@@ -17,6 +17,14 @@ class CRUD
                     ]
                 ],
                 [
+                    'path' => 'points', 'controller' => 'PointsController', 'model' => 'App\Models\Crm\Points', 'custom' => [
+                        ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
+                        ['path' => '/search', 'method' => 'post', 'function' => 'search'],
+                        ['path' => '/{id}', 'method' => 'put', 'function' => 'store'],
+
+                    ]
+                ],
+                [
                     'path' => 'people', 'controller' => 'PeopleController', 'model' => 'App\Models\Crm\Person', 'custom' => [
                         ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
                         ['path' => '/search', 'method' => 'post', 'function' => 'search']
@@ -24,10 +32,12 @@ class CRUD
                 ],
                 [
                     'path' => 'positions', 'controller' => 'PositionsController', 'model' => 'App\Models\Crm\Position', 'custom' => [
+                        ['path' => '-list/{mode}/{search?}', 'method' => 'get', 'function' => 'itemsList'],
+                        ['path' => '/search', 'method' => 'post', 'function' => 'search'],
                         ['path' => '/{id}/tasks', 'method' => 'get', 'function' => 'positionTasks']
                     ]
                 ],
-                ['path' => 'package', 'controller' => 'CompanyCommentsController', 'model' => 'App\Models\Crm\CompanyComment'],
+                ['path' => 'package', 'controller' => 'PackageController', 'model' => 'App\Models\Crm\Package'],
                 ['path' => 'person-comments', 'controller' => 'PersonCommentsController', 'model' => 'App\Models\Crm\PersonComment'],
                 ['path' => 'position-tasks', 'controller' => 'PositionTasksController', 'model' => 'App\Models\Crm\PositionTask', 'delete' => true, 'multipleAdd' => true],
                 ['path' => 'company-types', 'controller' => 'CompanyTypesController', 'model' => 'App\Models\Crm\CompanyType'],

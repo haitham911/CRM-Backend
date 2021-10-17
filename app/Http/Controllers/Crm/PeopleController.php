@@ -24,11 +24,8 @@ class PeopleController extends Controller
     public function index()
     {
         return Person
-            ::orderBy('lastname', 'asc')
-            ->orderBy('firstname', 'asc')
-            ->orderBy('distinction', 'asc')
-            ->with('language')
-            ->with('sex')
+            ::orderBy('name', 'asc')
+            ->orderBy('email', 'asc')
             ->get();
     }
     public function show($id)

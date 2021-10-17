@@ -37,9 +37,6 @@ class LeadsController extends Controller
     {
         $columns = ['id', 'name', 'email', 'chosen_product_id', 'income_source', 'work_duration', 'loan_amount', 'loan_duration'];
         $model = Leads::orderBy('id', 'asc');
-
-
-
         return ModelTreatment::getAsyncData($model, $request, $columns, 'crm', 'Leads', 'id', 'ASC');
     }
 }
