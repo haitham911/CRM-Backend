@@ -63,16 +63,15 @@ trait AddLead
 
 
         //get defult points
-        $DefultPoints = $db->table('points_evaluate_rule')->where('operand_id', 1)->first();
+        /*$DefultPoints = $db->table('points_evaluate_rule')->where('operand_id', 1)->first();
         if (!$DefultPoints) {
             return response()->json([
                 'status' => -1,
                 'msg' => 'default points not found'
             ], 400);
-        }
+        }*/
 
-
-        $defaultpoints =  $DefultPoints->add_points;
+        $defaultpoints =  5;
         $LoanAmountpoints = 0;
         $MonthlyIncomepoints = 0;
         //get Loan Amount rang point
@@ -133,7 +132,9 @@ trait AddLead
             $wgMonthly = 0;
         }
 
-
+      if ($wgloan  == 0){
+        $wgMonthly = 0;
+      }
 
         $selling_value =   $defaultpoints +  round($wgloan + $wgMonthly);
 
