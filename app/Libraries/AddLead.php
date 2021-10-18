@@ -43,33 +43,18 @@ trait AddLead
         }
         $LeadLoanAmount = $Lead->loan_amount;
         if ($LeadLoanAmount < 1) {
-            //   return ['status' => -2, 'msg' => 'lead amount not vaild'];
-           /* return response()->json([
-                'status' => -1,
-                'amount' => $LeadLoanAmount,
-                'msg' => 'lead amount not vaild'
-            ], 500);*/
+           
             $LeadLoanAmount  = 0;
         }
+     $selling_value =5;
+     if ( $LeadLoanAmount > 0){
+
         $LeadMonthlyIncome = $Lead->monthly_income;
-        if ($LeadMonthlyIncome < 0) {
-            /*return response()->json([
-                'status' => -1,
-                'amount' => $LeadMonthlyIncome,
-                'msg' => 'lead Monthly Income not vaild'
-            ], 400);*/
-            $LeadLoanAmount  = 0;
+        if ($LeadMonthlyIncome < 1) {
+            
+            $LeadMonthlyIncome  = 0;
         }
 
-
-        //get defult points
-        /*$DefultPoints = $db->table('points_evaluate_rule')->where('operand_id', 1)->first();
-        if (!$DefultPoints) {
-            return response()->json([
-                'status' => -1,
-                'msg' => 'default points not found'
-            ], 400);
-        }*/
 
         $defaultpoints =  5;
         $LoanAmountpoints = 0;
@@ -132,12 +117,9 @@ trait AddLead
             $wgMonthly = 0;
         }
 
-      if ($wgloan  == 0){
-        $wgMonthly = 0;
-      }
-
+     
         $selling_value =   $defaultpoints +  round($wgloan + $wgMonthly);
-
+    }
 
         $leads_proudct = new Leads_Proudct([
             'lead_id_source' => $id,
