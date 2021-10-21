@@ -21,20 +21,14 @@ trait AddLead
     }
     public static function publish($id)
     {
-
         $db = DB::connection('sales');
-
-
-        //get leads record
         $Lead = $db->table('leads')->where('id', $id)->first();
         if (!$Lead) {
-            return response()->json([
+            return [
                 'status' => -1,
                 'msg' => 'lead not found'
-            ], 400);
+            ];
         }
-        //get company id from proudcy id
-
         $LeadCompany = $db->table('products')->where('id', $Lead->chosen_product_id)->first();
         if ($LeadCompany) {
             $LeadCompanyId = $LeadCompany->company_id;
@@ -43,11 +37,20 @@ trait AddLead
         }
         $LeadLoanAmount = $Lead->loan_amount;
         if ($LeadLoanAmount < 1) {
-           
             $LeadLoanAmount  = 0;
         }
      $selling_value =5;
-     if ( $LeadLoanAmount > 0){
+     //land_product_id  name_en CREDIT_CARD
+     $leads_proudct_type = $db->table('products')->where('id', $Lead->land_product_id)->first();
+     if (!$leads_proudct_type) {
+       return [
+            'status' => -1,
+            'msg' => 'lead proudct type not found'
+        ];
+    }
+ 
+
+     if ( $leads_proudct_type->type !=  "CREDIT_CARD"){
 
         $LeadMonthlyIncome = $Lead->monthly_income;
         if ($LeadMonthlyIncome < 1) {
